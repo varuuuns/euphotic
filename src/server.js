@@ -2,8 +2,9 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import http from "http";
-import { FRONTEND_URL, MONGO_URL, PORT } from "./config";
-import dishRoutes from "./routes/dishRoutes";
+import { Server } from "socket.io";
+import { FRONTEND_URL, MONGO_URL, PORT } from "./config.js";
+import dishRoutes from "./routes/dishRoutes.js";
 
 const app = express();
 app.use(cors());
