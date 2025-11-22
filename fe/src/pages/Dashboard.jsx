@@ -1,7 +1,8 @@
 import axios from "axios";
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { VITE_BACKEND_URL } from "../config";
 import socket from "../socket";
+import DishCard from "../components/DishCard";
 
 const Dashboard = () => {
     const [dishes, setDishes] = useState([]);
