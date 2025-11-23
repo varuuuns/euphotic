@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 
-const dishSchema = mongoose.Schema({
-    dishId: { type: Number, required: true, unique: true },
+const dishSchema = new mongoose.Schema({
+    dishId: { type: String, required: true, unique: true },
     dishName: { type: String, required: true },
-    imageUrl: { type: String, required:true, default: "https://www.princechicken.com/Ewing/our-menu.jsp" },
-    isPublished: { type: Boolean, required: true }
-})
+    imageUrl: { type: String, required: true },
+    isPublished: { type: Boolean, default: false }
+});
 
 export default mongoose.model("Dish", dishSchema);

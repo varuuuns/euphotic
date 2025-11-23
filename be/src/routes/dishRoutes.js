@@ -1,28 +1,24 @@
 import express from "express";
 import Dish from "../models/dish.js";
 
-const dishRouter = express.Router();
+const router = express.Router();
 
-export default function(io){
-    dishRouter.get("/", async (req, res) => {
-        try {
-            const dishes = await Dish.find();
-            res.json({ Dishes: dishes });
-        }
-        catch (err) {
-            console.log(`error from routes/dishRoutes.js: ${err}`);
-        }
-    })
+export default function (io) {
+    router.get("/", async (req, res) => {
+        const dishes = await Dish.find();
+        res.json(dishes);
+    });
 
-    dishRouter.put("/:id/toggle", async (req, res) => {
+    router.put("/:id/toggle", async (req, res) => {
         const dish = await Dish.findById(req.params.id);
-        if (!dish) return res.status(400).json({ msg: "invalid dish" });
+        if (!dish) return res.status(404).json({ message: "Dish not found" });
 
-        dish.findByIdAndUpdate(!dish.isPublished);
-        io.emit("dish status updated", dish);
+        dish.isPublished = !dish.isPublished;
+        await dish.save();
 
-        res.json({ Dish: dish });
-    })
+        io.emit("dishUpdated", dish);
+        res.json(dish);
+    });
 
-    return dishRouter;
+    return router;
 }
